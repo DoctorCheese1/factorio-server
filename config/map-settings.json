@@ -1,0 +1,16 @@
+{
+  "difficulty_settings": {
+    "recipe_difficulty": 0,
+    "technology_difficulty": 0,
+    "technology_price_multiplier": 1
+  },
+  "pollution": {
+    "enabled": true
+  },
+  "enemy_evolution": {
+    "enabled": true
+  },
+  "enemy_expansion": {
+    "enabled": true
+  }
+}
