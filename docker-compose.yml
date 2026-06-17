@@ -1,0 +1,20 @@
+services:
+  factorio:
+    image: factoriotools/factorio:${FACTORIO_VERSION:-stable}
+    container_name: ${CONTAINER_NAME:-factorio-server}
+    restart: unless-stopped
+    ports:
+      - "${FACTORIO_PORT:-34197}:34197/udp"
+      - "${RCON_PORT:-27015}:27015/tcp"
+    environment:
+      - UPDATE_MODS_ON_START=${UPDATE_MODS_ON_START:-false}
+      - LOAD_LATEST_SAVE=${LOAD_LATEST_SAVE:-true}
+      - SAVE_NAME=${SAVE_NAME:-world}
+      - GENERATE_NEW_SAVE=${GENERATE_NEW_SAVE:-true}
+      - TOKEN=${FACTORIO_TOKEN:-}
+      - USERNAME=${FACTORIO_USERNAME:-}
+    volumes:
+      - ./data:/factorio
+      - ./config/server-settings.json:/factorio/config/server-settings.json:ro
+      - ./config/map-gen-settings.json:/factorio/config/map-gen-settings.json:ro
+      - ./config/map-settings.json:/factorio/config/map-settings.json:ro
