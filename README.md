@@ -10,6 +10,21 @@ A small Docker Compose starter for running a dedicated Factorio server with pers
 - UDP port `34197` allowed through Windows Defender Firewall and forwarded on your router for internet play
 - Optional: TCP port `27015` allowed if you plan to use RCON
 
+
+## Windows Docker setup for beginners
+
+If you have not used Docker before, use Docker Desktop. Docker is the program that runs the Factorio server in a small isolated container so you do not have to manually install the Factorio headless server files.
+
+1. Install Docker Desktop for Windows from <https://www.docker.com/products/docker-desktop/>.
+2. Restart Windows if the installer asks you to.
+3. Open Docker Desktop from the Start menu and wait until it says the Docker engine is running.
+4. Open PowerShell in this project folder. In File Explorer, you can open the folder, click the address bar, type `powershell`, and press Enter.
+5. Run `docker --version` to confirm Docker is installed.
+6. Run `docker compose version` to confirm Docker Compose is installed.
+7. Run `Copy-Item .env.example .env` once, then run `.\scripts\start.ps1`.
+
+After the first start, Docker downloads the Factorio server image. That first download can take a few minutes. When it finishes, the server keeps running in the background until you stop it.
+
 ## Quick start
 
 ```powershell
@@ -71,6 +86,41 @@ The Bash scripts are still included for non-Windows hosts:
 ./scripts/start.sh
 ./scripts/stop.sh
 ```
+
+## Docker Desktop basics
+
+- **Container**: the running Factorio server. This starter names it `factorio-server` by default.
+- **Image**: the downloaded Factorio server package Docker uses to create the container.
+- **Volume/bind mount**: the `./data` folder on your Windows host. This keeps saves and mods even if the container is recreated.
+- **Compose file**: `docker-compose.yml`, which tells Docker which image, ports, settings, and folders to use.
+
+Useful Docker commands:
+
+```powershell
+# See whether the server container is running
+docker ps
+
+# Start the server
+.\scripts\start.ps1
+
+# Watch live server logs
+docker compose logs -f factorio
+
+# Stop the server
+.\scripts\stop.ps1
+
+# Pull a newer Factorio image after changing FACTORIO_VERSION or updating later
+docker compose pull
+.\scripts\start.ps1
+```
+
+## Troubleshooting
+
+- If `docker` is not recognized, install Docker Desktop, restart PowerShell, and try again.
+- If Docker Desktop says WSL 2 is missing, follow the WSL 2 prompt in Docker Desktop, restart Windows, and reopen Docker Desktop.
+- If `.\scripts\start.ps1` is blocked by execution policy, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once in PowerShell.
+- If friends cannot connect, confirm Windows Defender Firewall allows UDP `34197` and your router forwards UDP `34197` to the Windows computer hosting Docker.
+- If you change `FACTORIO_PORT` in `.env`, update your Windows firewall rule and router port forward to match.
 
 ## Backups
 
