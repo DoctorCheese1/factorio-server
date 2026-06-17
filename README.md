@@ -6,7 +6,7 @@ A small Docker Compose starter for running a dedicated Factorio server with pers
 
 - Windows 10/11 or Windows Server with Docker Desktop or Docker Engine installed
 - Docker Compose v2 (`docker compose`)
-- PowerShell 5.1+ or PowerShell 7+
+- Command Prompt or PowerShell to run the included `.bat` scripts
 - UDP port `34197` allowed through Windows Defender Firewall and forwarded on your router for internet play
 - Optional: TCP port `27015` allowed if you plan to use RCON
 
@@ -18,18 +18,17 @@ If you have not used Docker before, use Docker Desktop. Docker is the program th
 1. Install Docker Desktop for Windows from <https://www.docker.com/products/docker-desktop/>.
 2. Restart Windows if the installer asks you to.
 3. Open Docker Desktop from the Start menu and wait until it says the Docker engine is running.
-4. Open PowerShell in this project folder. In File Explorer, you can open the folder, click the address bar, type `powershell`, and press Enter.
+4. Open this project folder in File Explorer.
 5. Run `docker --version` to confirm Docker is installed.
 6. Run `docker compose version` to confirm Docker Compose is installed.
-7. Run `Copy-Item .env.example .env` once, then run `.\scripts\start.ps1`.
+7. Double-click `scripts\start.bat`, or run `scripts\start.bat` from Command Prompt.
 
 After the first start, Docker downloads the Factorio server image. That first download can take a few minutes. When it finishes, the server keeps running in the background until you stop it.
 
 ## Quick start
 
-```powershell
-Copy-Item .env.example .env
-.\scripts\start.ps1
+```bat
+scripts\start.bat
 ```
 
 The server stores saves, mods, and runtime state in `./data`, which is mounted into the container as `/factorio`.
@@ -46,26 +45,20 @@ For a public listed server, set `visibility.public` to `true` in `config/server-
 
 ## Windows commands
 
-Run these from PowerShell in this repository folder:
+Use the included `.bat` scripts from Command Prompt, PowerShell, or by double-clicking them in File Explorer:
 
-```powershell
-# Start or update the server
-.\scripts\start.ps1
+```bat
+REM Start or update the server
+scripts\start.bat
 
-# Watch logs
+REM Watch logs
 docker compose logs -f factorio
 
-# Stop the server
-.\scripts\stop.ps1
+REM Stop the server
+scripts\stop.bat
 
-# Restart after config changes
+REM Restart after config changes
 docker compose restart factorio
-```
-
-If PowerShell blocks local scripts, run this once for your user account and then retry the start command:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
 ## Windows firewall
@@ -96,29 +89,28 @@ The Bash scripts are still included for non-Windows hosts:
 
 Useful Docker commands:
 
-```powershell
-# See whether the server container is running
+```bat
+REM See whether the server container is running
 docker ps
 
-# Start the server
-.\scripts\start.ps1
+REM Start the server
+scripts\start.bat
 
-# Watch live server logs
+REM Watch live server logs
 docker compose logs -f factorio
 
-# Stop the server
-.\scripts\stop.ps1
+REM Stop the server
+scripts\stop.bat
 
-# Pull a newer Factorio image after changing FACTORIO_VERSION or updating later
+REM Pull a newer Factorio image after changing FACTORIO_VERSION or updating later
 docker compose pull
-.\scripts\start.ps1
+scripts\start.bat
 ```
 
 ## Troubleshooting
 
-- If `docker` is not recognized, install Docker Desktop, restart PowerShell, and try again.
+- If `docker` is not recognized, install Docker Desktop, restart your terminal, and try again.
 - If Docker Desktop says WSL 2 is missing, follow the WSL 2 prompt in Docker Desktop, restart Windows, and reopen Docker Desktop.
-- If `.\scripts\start.ps1` is blocked by execution policy, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once in PowerShell.
 - If friends cannot connect, confirm Windows Defender Firewall allows UDP `34197` and your router forwards UDP `34197` to the Windows computer hosting Docker.
 - If you change `FACTORIO_PORT` in `.env`, update your Windows firewall rule and router port forward to match.
 
